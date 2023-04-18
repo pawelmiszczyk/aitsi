@@ -1,2 +1,0 @@
-# aitsi
-Api AiTSI

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Wypożyczalnia samochodów - Typy samochodów</title>
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/samochody.css">
+	<script>
+		window.onload = function() {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.getElementById("samochody").innerHTML = this.responseText;
+				}
+			};
+			xmlhttp.open("GET", "php/pobierz_samochody.php", true);
+			xmlhttp.send();
+		}
+	</script>
+</head>
+<body>
+	<header>
+		<h1>Wypożyczalnia samochodów</h1>
+	</header>
+	<nav>
+		<ul>
+			<li><a href="index.html">Strona główna</a></li>
+			<li><a href="samochody.html">Samochody</a></li>
+			<li><a href="regulamin.html">Regulamin</a></li>
+			<li><a href="rezerwacje.html">Rezerwacje</a></li>
+			<li><a href="opis.html">Opis serwisu</a></li>
+		</ul>
+	</nav>
+	<main>
+	<div id="samochody"></div>
+	</main>
+	<footer>
+		<div>
+			<div>
+				<h3>Kontakt</h3>
+				<p>Numer telefonu: 123-456-789</p>
+				<p>Adres email: info@wypozyczalniasamochodow.com</p>
+				<p>NIP: 123-456-78-90</p>
+				<p>REGON: 123456789</p>
+			</div>
+		</div>
+		<p>Wypożyczalnia samochodów &copy; 2023</p>
+	</footer>
+</body>
+</html>

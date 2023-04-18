@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Wypożyczalnia samochodów</title>
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/modal.css">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script>
+		function setCookie(cname, cvalue, exdays) {
+			var d = new Date();
+			d.setTime(d.getTime() + (exdays*24*60*60*1000));
+			var expires = "expires="+ d.toUTCString();
+			document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+		}
+
+		function getCookie(cname) {
+			var name = cname + "=";
+			var decodedCookie = decodeURIComponent(document.cookie);
+			var ca = decodedCookie.split(';');
+			for(var i = 0; i < ca.length; i++) {
+				var c = ca[i];
+				while (c.charAt(0) == ' ') {
+					c = c.substring(1);
+				}
+				if (c.indexOf(name) == 0) {
+					return c.substring(name.length, c.length);
+				}
+			}
+			return "";
+		}
+
+		function checkConterCookie() {
+		  var counter = getCookie("counter");
+		  if (counter === "") {
+			counter = 1;
+		  } else {
+			counter = parseInt(counter) + 1;
+		  }
+		  setCookie("counter", counter, 7);
+		}
+		
+		function setLastVisitCookie() {
+			var now = new Date();
+			var expirationDate = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+			document.cookie = "lastVisit=" + now.toUTCString() + ";expires=" + expirationDate.toUTCString() + ";path=/";
+      }
+	</script>
+	<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		// kod związany z dodawaniem nasłuchiwacza zdarzeń
+		document.getElementById('newsletterForm').addEventListener('submit', function(event) {
+			// kod obsługi zdarzenia
+			event.preventDefault(); // uniemożliwienie domyślnego zachowania przycisku "submit"
+			var form = event.target; // pobranie formularza
+			var formData = new FormData(form); // utworzenie obiektu FormData z danymi formularza
+
+			var xhr = new XMLHttpRequest(); // utworzenie obiektu XMLHttpRequest
+
+			// wysłanie żądania POST na adres pliku PHP
+			xhr.open('POST', 'php/submit.php');
+			xhr.onload = function() {
+				if (xhr.status === 200) { // obsługa odpowiedzi
+					var response = xhr.responseText;
+					document.getElementById('message').innerHTML = 'Dziękujemy za subskrypcję naszego newslettera! Wkrótce otrzymasz od nas wiadomość z potwierdzeniem subskrypcji oraz pierwszy newsletter z ciekawymi informacjami i ofertami. Bądź na bieżąco z naszą wypożyczalnią samochodów i korzystaj z naszych promocji oraz rabatów!';
+					document.getElementById('emailInput').value = ''; // wyczyszczenie pola email
+					$('#myModal').modal('show'); // wywołanie okna dialogowego
+					console.log('Sukces. Kod statusu HTTP: ' + xhr.status);
+				} else {
+					console.log('Wystąpił błąd. Kod statusu HTTP: ' + xhr.status);
+				}
+			  };
+			xhr.send(formData); // wysłanie żądania
+		});
+	});
+	</script>
+</head>
+<body onload="checkConterCookie();setLastVisitCookie()">
+	<header>
+		<h1>Wypożyczalnia samochodów</h1>
+	</header>
+	<nav>
+		<ul>
+			<li><a href="index.html">Strona główna</a></li>
+			<li><a href="samochody.html">Samochody</a></li>
+			<li><a href="regulamin.html">Regulamin</a></li>
+			<li><a href="rezerwacje.html">Rezerwacje</a></li>
+			<li><a href="opis.html">Opis serwisu</a></li>
+		</ul>
+	</nav>
+	<main>
+		<section>
+			<h2>Wypożyczalnia samochodów</h2>
+			<p>Nasza wypożyczalnia samochodów oferuje szeroki wybór pojazdów w różnych klasach i cenach. Działamy w kilku miastach Polski, a nasze biura znajdują się w dogodnych miejscach, co ułatwia naszym klientom wypożyczanie samochodów.</p>
+			<p>Oferujemy zarówno krótko-, jak i długoterminowe wynajmy, a nasi pracownicy są zawsze gotowi pomóc w wyborze najlepszego pojazdu dla klienta.</p>
+			<p>W naszej ofercie znajdują się m.in. samochody osobowe, dostawcze oraz terenowe. Wszystkie nasze samochody są w pełni sprawne i regularnie serwisowane, co zapewnia bezpieczeństwo podczas jazdy.</p>
+			<p>Zapraszamy do odwiedzenia naszych biur i skorzystania z naszych usług!</p>
+			<h3>Miasta, w których działamy:</h3>
+			<ul>
+				<li>Warszawa - ul. Nowy Świat 1</li>
+				<li>Kraków - ul. Floriańska 2</li>
+				<li>Poznań - ul. Stary Rynek 3</li>
+				<li>Gdańsk - ul. Długa 4</li>
+				<li>Wrocław - ul. Rynek 5</li>
+			</ul>
+			<h3>Miejsca, z których można wypożyczyć samochód:</h3>
+			<ul>
+				<li>Lotniska</li>
+				<li>Dworce kolejowe</li>
+				<li>Centra miast</li>
+				<li>Inne wybrane lokalizacje</li>
+			</ul>
+		</section>
+		<section>
+			<div id="map" style="height: 500px"></div>
+			<script>
+			  var cities = [
+				{
+				  name: 'Warszawa',
+				  latlng: [52.2297, 21.0122]
+				},
+				{
+				  name: 'Kraków',
+				  latlng: [50.0647, 19.9450]
+				},
+				{
+				  name: 'Poznań',
+				  latlng: [52.4064, 16.9252]
+				},
+				{
+				  name: 'Wrocław',
+				  latlng: [51.1079, 17.0385]
+				},
+				{
+				  name: 'Gdańsk',
+				  latlng: [54.3520, 18.6466]
+				}
+			  ];
+
+			  var map = L.map('map').setView([51.9194, 19.1451], 6);
+
+			  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				maxZoom: 21
+			  }).addTo(map);
+
+			  for (var i = 0; i < cities.length; i++) {
+				var city = cities[i];
+				var marker = L.marker(city.latlng).addTo(map);
+				marker.bindPopup(city.name);
+			  }
+			</script>
+		</section>
+	</main>
+	<div class="newsletter">
+	  <h3>Zapisz się do newslettera</h3>
+		<form id="newsletterForm">
+		  <input id="emailInput" type="email" name="email" placeholder="Adres email" required>
+		  <button type="submit" name="submit">Zapisz się</button>
+		</form>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">Zostałeś zapisany do newslettera.</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				<p id="message"></p>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-primary mx-auto" data-dismiss="modal">OK</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	</div>
+	<footer>
+		<div>
+			<div>
+				<h3>Kontakt</h3>
+				<p>Numer telefonu: 123-456-789</p>
+				<p>Adres email: info@wypozyczalniasamochodow.com</p>
+				<p>NIP: 123-456-78-90</p>
+				<p>REGON: 123456789</p>
+			</div>
+		</div>
+		<p>Wypożyczalnia samochodów &copy; 2023</p>
+	</footer>
+</body>
+</html>

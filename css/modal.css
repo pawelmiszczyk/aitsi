@@ -1,0 +1,91 @@
+/* Styl dla tła okna modalnego */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1050;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  outline: 0;
+}
+
+/* Styl dla okna modalnego */
+.modal-dialog {
+  position: relative;
+  max-width: 500px; /* Maksymalna szerokość okna modalnego */
+  margin: 1rem auto; /* Margines odstępu od góry i dołu, automatyczne wycentrowanie poziome */
+  pointer-events: none;
+}
+
+/* Styl dla zawartości okna modalnego */
+.modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  pointer-events: auto;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+  outline: 0;
+}
+
+/* Styl dla nagłówka okna modalnego */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* Styl dla tytułu nagłówka okna modalnego */
+.modal-title {
+  margin: 0;
+}
+
+/* Styl dla przycisku zamykania okna modalnego */
+.close {
+  padding: 1rem;
+  margin: -1rem -1rem -1rem auto;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+/* Styl dla treści okna modalnego */
+.modal-body {
+  flex: 1;
+  padding: 1rem;
+}
+
+/* Styl dla stopki okna modalnego */
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Wyśrodkowanie elementów w stopce */
+  padding: 1rem;
+  border-top: 1px solid #e9ecef;
+}
+
+/* Styl dla przycisku OK w stopce okna modalnego */
+.btn-primary {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: normal; /* Usunięcie pogrubienia tekstu */
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+/* Styl dla przycisku OK w stopce okna modalnego po najechaniu na niego myszką */
+.btn-primary:hover {
+  background-color: #0056b3;
+}

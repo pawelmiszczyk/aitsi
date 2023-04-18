@@ -1,0 +1,251 @@
+/* resetowanie stylów */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box
+}
+
+/* style dla całej strony */
+body {
+font-family: 'Roboto', sans-serif;
+}
+
+/* style dla nagłówka */
+header {
+background-color: #283593;
+color: #fff;
+padding: 20px;
+text-align: center;
+}
+
+header h1 {
+font-size: 48px;
+margin-bottom: 10px;
+}
+
+header p {
+font-size: 24px;
+}
+
+/* style dla menu */
+nav {
+background-color: #E8EAF6;
+padding: 10px;
+}
+
+nav ul {
+list-style: none;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+nav li {
+margin: 0 10px;
+}
+
+nav a {
+color: #283593;
+text-decoration: none;
+font-size: 24px;
+}
+
+nav a:hover {
+text-decoration: underline;
+}
+
+/* style dla sekcji */
+section {
+padding: 40px;
+}
+
+section h2 {
+font-size: 36px;
+margin-bottom: 20px;
+}
+
+section h3 {
+font-size: 24px;
+margin-bottom: 10px;
+}
+
+section p {
+font-size: 18px;
+line-height: 1.5;
+margin-bottom: 20px;
+}
+
+/* style dla tabeli cennika */
+table {
+border-collapse: collapse;
+width: 100%;
+}
+
+table th,
+table td {
+padding: 10px;
+text-align: center;
+border: 1px solid #ccc;
+}
+
+table th {
+background-color: #E8EAF6;
+}
+
+/* style dla formularza rezerwacji */
+form {
+display: flex;
+flex-direction: column;
+}
+
+form label {
+font-size: 18px;
+margin-bottom: 10px;
+}
+
+form input[type="text"],
+form input[type="date"],
+form input[type="submit"] {
+padding: 10px;
+margin-bottom: 20px;
+border: 1px solid #ccc;
+border-radius: 5px;
+font-size: 18px;
+}
+
+form input[type="submit"] {
+background-color: #283593;
+color: #fff;
+cursor: pointer;
+}
+
+form input[type="submit"]:hover {
+background-color: #1A237E;
+}
+
+/* style dla stopki */
+footer {
+background-color: #283593;
+color: #fff;
+padding: 20px;
+text-align: center;
+}
+
+/* style dla newslettera */
+.newsletter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
+
+.newsletter h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.newsletter form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.newsletter input[type="email"] {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 10px;
+}
+
+.newsletter button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.newsletter button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Style dla sekcji informacyjnych*/
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+nav li {
+  float: left;
+}
+
+nav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+nav li a:hover {
+  background-color: #111;
+}
+
+main {
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+section {
+  margin-bottom: 30px;
+}
+
+h2, h3 {
+  text-align: center;
+  font-size: 2rem;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Styl dla list */
+ul {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+
+main ul li:before {
+content: "• ";
+margin-right: 5px;
+}

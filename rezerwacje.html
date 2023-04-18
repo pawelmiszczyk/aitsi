@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Wypożyczalnia samochodów - Regulamin</title>
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/modal.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script>
+	  function validateForm() {
+		var dataOdbioru = new Date(document.getElementById("data-odbioru").value + "T" + document.getElementById("godzina-odbioru").value);
+		var dataZwrotu = new Date(document.getElementById("data-zwrotu").value + "T" + document.getElementById("godzina-zwrotu").value);
+		var nazwaAuta = document.getElementById("nazwa-auta").value;
+		
+		if (nazwaAuta === "") {
+		  alert("Wybierz samochód z listy rozwijanej.");
+		  return false;
+		}
+		if (dataOdbioru >= dataZwrotu) {
+		  alert("Data i godzina zwrotu muszą być późniejsze niż data i godzina odbioru.");
+		  return false;
+		}
+		
+		return true;
+	  }
+	  
+	  document.addEventListener('DOMContentLoaded', function() {
+		const form = document.querySelector('form');
+		if (form) {
+		  form.addEventListener('submit', function(event) {
+			if (!validateForm()) {
+			  event.preventDefault(); // uniemożliwienie domyślnego zachowania przycisku "submit"
+			} else {
+			  event.preventDefault(); // uniemożliwienie domyślnego zachowania przycisku "submit"
+			  var form = event.target; // pobranie formularza
+			  var formData = new FormData(form); // utworzenie obiektu FormData z danymi formularza
+
+			  var xhr = new XMLHttpRequest(); // utworzenie obiektu XMLHttpRequest
+
+			  // wysłanie żądania POST na adres pliku PHP
+			  xhr.open('POST', 'php/rezerwuj.php');
+			  xhr.onload = function() {
+				if (xhr.status === 200) { // obsługa odpowiedzi
+				  var response = xhr.responseText;
+				  document.getElementById('message').innerHTML = 'Dziękujemy za rezerwację samochodu! Wkrótce otrzymasz od nas wiadomość z potwierdzeniem rezerwacji oraz szczegółowe informacje na temat odbioru i zwrotu samochodu. Życzymy udanego wyjazdu!';
+				  form.reset(); // wyczyszczenie formularza
+				  $('#myModal').modal('show'); // wywołanie okna dialogowego
+				  console.log('Sukces. Kod statusu HTTP: ' + xhr.status);
+				} else {
+				  console.log('Wystąpił błąd. Kod statusu HTTP: ' + xhr.status);
+				}
+			  };
+			  xhr.send(formData); // wysłanie żądania
+			}
+		  });
+		}
+	  });
+	</script>
+	<script>
+	  document.addEventListener('DOMContentLoaded', function() {
+		// Pobieranie danych z PHP
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', 'php/pobierz_nazwy_samochodow.php');
+		xhr.onload = function() {
+		  if (xhr.status === 200) {
+			// Przetwarzanie danych JSON
+			var data = JSON.parse(xhr.responseText);
+
+			// Wypełnianie listy rozwijalnej
+			var select = document.createElement('select');
+			select.setAttribute('name', 'nazwa-auta');
+			select.setAttribute('id', 'nazwa-auta');
+			select.setAttribute('required', true);
+
+			// Dodawanie pustej pozycji
+			var option = document.createElement('option');
+			option.setAttribute('value', '');
+			option.innerHTML = '-- Wybierz samochód --';
+			select.appendChild(option);
+
+			data.forEach(function(nazwa) {
+			  var option = document.createElement('option');
+			  option.setAttribute('value', nazwa);
+			  option.innerHTML = nazwa;
+			  select.appendChild(option);
+			});
+
+			var input = document.getElementById('nazwa-auta');
+			input.parentNode.replaceChild(select, input);
+		  }
+		};
+		xhr.send();
+	  });
+	</script>
+</head>
+<body>
+	<header>
+		<h1>Wypożyczalnia samochodów</h1>
+	</header>
+	<nav>
+		<ul>
+			<li><a href="index.html">Strona główna</a></li>
+			<li><a href="samochody.html">Samochody</a></li>
+			<li><a href="regulamin.html">Regulamin</a></li>
+			<li><a href="rezerwacje.html">Rezerwacje</a></li>
+			<li><a href="opis.html">Opis serwisu</a></li>
+		</ul>
+	</nav>
+	<main>
+		<section id="rezerwacje">
+		  <h2>Rezerwacje</h2>
+		  <p>Aby dokonać rezerwacji, należy skontaktować się z nami telefonicznie lub przez formularz kontaktowy na naszej stronie internetowej.</p>
+			<form id="form" action="php/rezerwuj.php" method="post" style="max-width: 500px; margin: 0 auto;">
+				<h3 style="text-align: center;">Formularz rezerwacji samochodu</h3>
+				<label for="nazwa-auta" style="display: block; margin-bottom: 10px;">Nazwa auta:</label>
+				<select name="nazwa-auta" id="nazwa-auta" style="width: 100%; margin-bottom: 10px;" required></select>
+				<label for="miejsce-odbioru" style="display: block; margin-bottom: 10px;">Miejsce odbioru:</label>
+				<input type="text" name="miejsce-odbioru" id="miejsce-odbioru" style="width: 100%; margin-bottom: 10px;" required>
+				<div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+					<div style="flex-grow: 1; margin-right: 10px;">
+						<label for="godzina-odbioru" style="display: block; margin-bottom: 5px;">Godzina odbioru:</label>
+						<input type="time" name="godzina-odbioru" id="godzina-odbioru" style="width: 100%;" required>
+						<label for="data-odbioru" style="display: block; margin-top: 10px; margin-bottom: 5px;">Data odbioru:</label>
+						<input type="date" name="data-odbioru" id="data-odbioru" style="width: 100%;" required>
+					</div>
+					<div style="flex-grow: 1; margin-left: 10px;">
+						<label for="godzina-zwrotu" style="display: block; margin-bottom: 5px;">Godzina zwrotu:</label>
+						<input type="time" name="godzina-zwrotu" id="godzina-zwrotu" style="width: 100%;" required>
+						<label for="data-zwrotu" style="display: block; margin-top: 10px; margin-bottom: 5px;">Data zwrotu:</label>
+						<input type="date" name="data-zwrotu" id="data-zwrotu" style="width: 100%;" required>
+					</div>
+				</div>
+				<label for="telefon" style="display: block; margin-bottom: 10px;">Telefon kontaktowy:</label>
+				<input type="number" name="telefon" id="telefon" style="width: 100%; margin-bottom: 10px;" required>
+				<label for="email" style="display: block; margin-bottom: 10px;">Adres email:</label>
+				<input type="email" name="email" id="email" style="width: 100%; margin-bottom: 10px;" required>
+				<div style="margin-top: 20px;">
+			  <h4>Dodatkowe opcje (dodatkowa opłata):</h4>
+			  <div style="display: flex; flex-wrap: wrap;">
+				<div>
+				  <input type="checkbox" name="fotelik" id="fotelik" value="fotelik">
+				  <label for="fotelik">Fotelik dla dziecka (+50 PLN/doba)</label><br>
+				  <input type="checkbox" name="podkladka" id="podkladka" value="podkladka">
+				  <label for="podkladka">Podkładka dla dziecka (+20 PLN/doba)</label><br>
+				  <input type="checkbox" name="gps" id="gps" value="gps">
+				  <label for="gps">Nawigacja GPS (+30 PLN/doba)</label><br>
+				  <input type="checkbox" name="brudne-auto" id="brudne-auto" value="brudne-auto">
+				  <label for="brudne-auto">Możliwość oddania brudnego auta (+20 PLN)</label><br>
+				  <input type="checkbox" name="wyjazd-granica" id="wyjazd-granica" value="wyjazd-granica">
+				  <label for="wyjazd-granica">Wyjazd poza granicę kraju (+100 PLN/doba)</label><br>
+				</div>
+			  </div>
+			</div>
+			<input type="submit" value="Wyślij">
+		  </form>
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  <div class="modal-dialog" role="document">
+				<div class="modal-content">
+				  <div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">Formularz został wysłany.</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+				  </div>
+				  <div class="modal-body">
+					<p id="message"></p>
+				  </div>
+				  <div class="modal-footer">
+					<button type="button" class="btn btn-primary mx-auto" data-dismiss="modal">OK</button>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		</section>
+	</main>
+	<footer>
+		<div>
+			<div>
+				<h3>Kontakt</h3>
+				<p>Numer telefonu: 123-456-789</p>
+				<p>Adres email: info@wypozyczalniasamochodow.com</p>
+				<p>NIP: 123-456-78-90</p>
+				<p>REGON: 123456789</p>
+			</div>
+		</div>
+		<p>Wypożyczalnia samochodów &copy; 2023</p>
+	</footer>
+</body>
+</html>
